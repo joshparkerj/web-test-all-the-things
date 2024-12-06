@@ -5,3 +5,8 @@ results
 package-lock.json
 redis-data
 .node-version
+.vscode/
+nohup.out
+app/tests/selenium/build/
+app/tests/untitled/
+app/tests/selenium/video/

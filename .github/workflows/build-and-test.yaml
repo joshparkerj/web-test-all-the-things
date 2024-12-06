@@ -43,6 +43,13 @@ jobs:
           npm run build
           npm run test
           cd ..
+
+          cd api
+          nohup npm run start &
+          cd ../app
+          nohup npm run serve -- --port 8081 --public host.testcontainers.internal &
+          cd tests/selenium
+          mvn test
         env:
           DBHOST: localhost
           DBPORT: 6379
@@ -55,5 +62,18 @@ jobs:
           path: api/results/*.xml,app/results/*.xml
           reporter: java-junit # https://github.com/dorny/test-reporter/issues/154
 
-      # TODO: upload Cypress videos as build artifacts
+      - name: upload cypress videos
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress videos
+          path: app/results/videos/*.mp4
+      
+      - name: upload selenium artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium artifacts
+          path: |
+            app/tests/selenium/video/*.mp4
+
+
       # TODO: deploy
